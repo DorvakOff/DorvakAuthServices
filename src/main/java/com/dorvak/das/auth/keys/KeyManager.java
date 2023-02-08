@@ -1,4 +1,4 @@
-package com.dorvak.das.keys;
+package com.dorvak.das.auth.keys;
 
 import com.dorvak.das.DorvakAuthServicesApplication;
 

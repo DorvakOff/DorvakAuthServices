@@ -1,6 +1,7 @@
 package com.dorvak.das.config;
 
 import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.utils.FileUtils;
 import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 
@@ -18,7 +19,8 @@ public class ConfigurationLoader {
     }
 
     @Bean
-    public Configuration load() {
+    public Configuration load() throws IOException {
+        FileUtils.createDirectory("DAS");
         File file = new File("DAS/config.json");
         if (file.exists()) {
             Gson gson = new Gson();
@@ -29,6 +31,9 @@ public class ConfigurationLoader {
             }
         } else {
             configuration = new Configuration();
+            if (file.createNewFile()) {
+                DorvakAuthServicesApplication.getLogger().info("Created new config file");
+            }
         }
         updateConfiguration();
         DorvakAuthServicesApplication.getLogger().info("Loaded config file");

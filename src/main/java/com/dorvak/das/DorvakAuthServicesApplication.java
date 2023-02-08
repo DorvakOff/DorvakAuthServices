@@ -1,24 +1,25 @@
 package com.dorvak.das;
 
-import com.dorvak.das.keys.KeyGenerator;
-import com.dorvak.das.keys.KeyManager;
-import com.dorvak.das.utils.FileUtils;
+import com.dorvak.das.auth.keys.KeyManager;
 import com.dorvak.das.utils.MultiThreading;
+import com.dorvak.das.utils.cache.CacheUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 @SpringBootApplication
 public class DorvakAuthServicesApplication implements CommandLineRunner {
 
-    private static final String VERSION = "0.0.1";
     private static final Logger logger = Logger.getLogger(DorvakAuthServicesApplication.class.getName());
     private static DorvakAuthServicesApplication INSTANCE;
     private KeyManager keyManager;
+
+    @Autowired
+    private ConfigurableApplicationContext ctx;
 
     public static void main(String[] args) {
         SpringApplication.run(DorvakAuthServicesApplication.class, args);
@@ -28,29 +29,27 @@ public class DorvakAuthServicesApplication implements CommandLineRunner {
         return INSTANCE;
     }
 
-    public static String getVersion() {
-        return VERSION;
-    }
-
     public static Logger getLogger() {
         return logger;
     }
 
-    private static void shutdown() {
+    private void shutdown() {
         logger.info("Shutting down...");
+        if (ctx.isRunning()) {
+            ctx.stop();
+        }
         MultiThreading.shutdown();
     }
 
     @Override
     public void run(String... args) {
-        FileUtils.createDirectory("DAS");
         INSTANCE = this;
+        CacheUtils.init();
 
         keyManager = new KeyManager();
         keyManager.addKeyGenerator("test");
 
-        Thread shutdownHook = new Thread(DorvakAuthServicesApplication::shutdown, "Shutdown Hook");
-
+        Thread shutdownHook = new Thread(this::shutdown, "Shutdown Hook");
         Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 

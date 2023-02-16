@@ -4,15 +4,16 @@ import com.dorvak.das.utils.cache.ExpirableConcurrentHashMap;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class CodeGenerator {
 
     public static final int VERIFICATION_CODE_LENGTH = 128;
 
-    private static final Map<String, String> verificationCodes = new ExpirableConcurrentHashMap<>(15, TimeUnit.MINUTES);
+    private static final Map<String, UUID> verificationCodes = new ExpirableConcurrentHashMap<>(15, TimeUnit.MINUTES);
 
-    public static String generateVerificationCode(String id) {
+    public static String generateVerificationCode(UUID id) {
         StringBuilder code = new StringBuilder();
         Random r = new Random();
         char ch;
@@ -46,15 +47,12 @@ public class CodeGenerator {
         return result;
     }
 
-    public static boolean verifyCode(String code, String id) {
+    public static UUID verifyCode(String code) {
         if (!verificationCodes.containsKey(code)) {
-            return false;
+            return null;
         }
-        if (verificationCodes.get(code).equals(id)) {
-            verificationCodes.remove(code);
-            return true;
-        } else {
-            return false;
-        }
+        UUID id = verificationCodes.get(code);
+        verificationCodes.remove(code);
+        return id;
     }
 }

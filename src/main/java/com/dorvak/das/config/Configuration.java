@@ -2,20 +2,33 @@ package com.dorvak.das.config;
 
 public class Configuration {
 
-    private final String databaseHost;
+    // Database
+    private final String databaseUrl;
     private final String driverClassName;
     private final String databaseUsername;
     private final String databasePassword;
 
+    // Mail
+    private final String mailHost;
+    private final String mailPort;
+    private final String mailUsername;
+    private final String mailAddress;
+    private final String mailPassword;
+
     public Configuration() {
-        this.databaseHost = "jdbc:h2:file:./DAS/Data/database.db";
+        this.databaseUrl = "jdbc:h2:file:./DAS/Data/database.db";
         this.driverClassName = "org.h2.Driver";
         this.databaseUsername = "SA";
         this.databasePassword = "";
+        this.mailHost = "example.com";
+        this.mailPort = "587";
+        this.mailAddress = "no-reply@example.com";
+        this.mailUsername = "DorvakAuthServices";
+        this.mailPassword = "password";
     }
 
     public String getDatabaseHost() {
-        return databaseHost;
+        return databaseUrl;
     }
 
     public String getDriverClassName() {
@@ -30,4 +43,23 @@ public class Configuration {
         return databasePassword;
     }
 
+    public String getMailHost() {
+        return mailHost;
+    }
+
+    public String getMailPort() {
+        return mailPort;
+    }
+
+    public String getMailUsername() {
+        return mailUsername;
+    }
+
+    public String getMailPassword() {
+        return mailPassword;
+    }
+
+    public String getMailAddress() {
+        return mailAddress;
+    }
 }

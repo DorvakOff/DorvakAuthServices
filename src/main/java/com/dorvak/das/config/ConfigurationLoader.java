@@ -3,6 +3,7 @@ package com.dorvak.das.config;
 import com.dorvak.das.DorvakAuthServicesApplication;
 import com.dorvak.das.utils.FileUtils;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.context.annotation.Bean;
 
 import java.io.File;
@@ -50,7 +51,7 @@ public class ConfigurationLoader {
             if (file.exists() & file.createNewFile()) {
                 DorvakAuthServicesApplication.getLogger().info("Updated config file");
             }
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(configuration);
             writer.write(json);
         } catch (IOException e) {

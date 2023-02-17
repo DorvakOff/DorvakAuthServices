@@ -15,27 +15,17 @@ public class KeyManager {
         keyGenerators = new HashMap<>();
     }
 
-    public void addKeyGenerator(String name) {
+    public KeyGenerator addKeyGenerator(String name) {
         try {
             keyGenerators.put(name, new KeyGenerator(name));
         } catch (Exception e) {
             e.printStackTrace();
             DorvakAuthServicesApplication.getLogger().severe("Failed to create key generator for " + name);
         }
+        return keyGenerators.get(name);
     }
 
-    public PublicKey getPublicKey(String name) {
-        if (!keyGenerators.containsKey(name)) {
-            return null;
-        }
-        return keyGenerators.get(name).getPublicKey();
+    public KeyGenerator addKeyGenerator(Class<?> clazz) {
+        return this.addKeyGenerator(clazz.getSimpleName());
     }
-
-    public PrivateKey getPrivateKey(String name) {
-        if (!keyGenerators.containsKey(name)) {
-            return null;
-        }
-        return keyGenerators.get(name).getPrivateKey();
-    }
-
 }

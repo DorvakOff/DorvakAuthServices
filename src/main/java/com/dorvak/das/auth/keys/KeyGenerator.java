@@ -39,7 +39,7 @@ public class KeyGenerator {
         if (FileUtils.fileExists(keyFolder.getPath(), RSA_PUBLIC_PEM) && FileUtils.fileExists(keyFolder.getPath(), RSA_PRIVATE_PEM)) {
             publicKey = PemUtils.readPublicKeyFromFile(keyFolder + File.separator + RSA_PUBLIC_PEM, KEY_ALGORITHM);
             privateKey = PemUtils.readPrivateKeyFromFile(keyFolder + File.separator + RSA_PRIVATE_PEM, KEY_ALGORITHM);
-            DorvakAuthServicesApplication.getLogger().info("KeyPair with name " + keyFolder.getName() + " loaded");
+            DorvakAuthServicesApplication.getLogger().info("KeyPair '" + keyFolder.getName() + "' loaded");
         } else {
             createKeys();
         }
@@ -58,7 +58,7 @@ public class KeyGenerator {
         privateKey = pair.getPrivate();
 
         saveKeyPair(pair);
-        DorvakAuthServicesApplication.getLogger().info("KeyPair with name " + keyFolder.getName() + " created");
+        DorvakAuthServicesApplication.getLogger().info("KeyPair '" + keyFolder.getName() + "' created");
     }
 
     private KeyPair generateKeys() throws NoSuchAlgorithmException {

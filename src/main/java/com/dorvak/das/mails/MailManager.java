@@ -11,7 +11,7 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.context.Context;
@@ -33,7 +33,7 @@ public class MailManager {
 
     public MailManager(SpringTemplateEngine thymeleafTemplateEngine) {
         this.thymeleafTemplateEngine = thymeleafTemplateEngine;
-        this.bannerFile = new ClassPathResource("banner.png");
+        this.bannerFile = new FileSystemResource("DAS/resources/mail-templates/banner.png");
         Configuration configuration = DorvakAuthServicesApplication.getInstance().getConfiguration();
         Properties properties = new Properties();
         properties.put("mail.smtp.host", configuration.getMailHost());

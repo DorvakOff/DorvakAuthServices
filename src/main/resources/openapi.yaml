@@ -1,0 +1,164 @@
+openapi: "3.0.3"
+info:
+  title: "DorvakAuthServices API"
+  description: "DorvakAuthServices API"
+  version: "1.0.0"
+servers:
+  - url: "https://DorvakAuthServices"
+paths:
+  /user/avatar:
+    post:
+      summary: "POST user/avatar"
+      operationId: "setAvatar"
+      parameters:
+        - name: "avatar"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+            format: "binary"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+  /user/avatar/{uuid}/{avatar}:
+    get:
+      summary: "GET user/avatar/{uuid}/{avatar}"
+      operationId: "getAvatar"
+      parameters:
+        - name: "uuid"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "avatar"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            default: "128"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "byte"
+            image/png:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "byte"
+  /user/data:
+    get:
+      summary: "GET user/data"
+      operationId: "getUserData"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDto"
+  /user/login:
+    post:
+      summary: "POST user/login"
+      operationId: "login"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /user/register:
+    post:
+      summary: "POST user/register"
+      operationId: "register"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /verify/{code}:
+    get:
+      summary: "GET verify/{code}"
+      operationId: "verify"
+      parameters:
+        - name: "code"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ResponseEntity"
+components:
+  schemas:
+    UserDto:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+        username:
+          type: "string"
+        email:
+          type: "string"
+        avatar:
+          type: "string"
+    LoginDto:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+        email:
+          type: "string"
+    HttpHeaders:
+      type: "object"
+      properties: { }
+    ResponseEntity:
+      type: "object"
+      properties:
+        headers:
+          $ref: "#/components/schemas/HttpHeaders"

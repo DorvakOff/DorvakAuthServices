@@ -5,8 +5,11 @@ import com.dorvak.das.exceptions.AuthException;
 import com.dorvak.das.mails.MailManager;
 import com.dorvak.das.models.User;
 import com.dorvak.das.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
+import java.util.UUID;
 
 public class AuthManager {
 
@@ -45,5 +48,21 @@ public class AuthManager {
         Map<String, Object> variables = Map.of("username", user.getUsername(), "codeUrl", url);
 
         mailManager.sendMailWithTemplate(subject, "verification-email", variables, user.getEmail());
+    }
+
+    public static User login(String username, String email, String password) {
+        User user = DorvakAuthServicesApplication.getInstance().getUserRepository().findByUsernameOrEmail(username, email);
+
+        return user != null && PasswordManager.checkPassword(password, user.getPassword()) ? user : null;
+    }
+
+    public static User getUserFromToken(String token) {
+        JwtGenerator jtwGenerator = DorvakAuthServicesApplication.getInstance().getJtwGenerator();
+        try {
+            String uuid = jtwGenerator.verifyToken(token.replace("Bearer ", ""));
+            return DorvakAuthServicesApplication.getInstance().getUserRepository().findById(UUID.fromString(uuid)).orElse(null);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
     }
 }

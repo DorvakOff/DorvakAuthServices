@@ -1,10 +1,10 @@
-package com.dorvak.das.configuration;
+package com.dorvak.das.mails;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
@@ -20,8 +20,8 @@ public class ThymeleafConfiguration {
 
     @Bean
     public ITemplateResolver thymeleafClassLoaderTemplateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("mail-templates/");
+        FileTemplateResolver templateResolver = new FileTemplateResolver();
+        templateResolver.setPrefix("DAS/resources/mail-templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML");
         templateResolver.setCharacterEncoding("UTF-8");

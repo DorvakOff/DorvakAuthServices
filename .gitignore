@@ -32,4 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-/DAS/
+/DAS/security
+/DAS/config.json
+/DAS/users

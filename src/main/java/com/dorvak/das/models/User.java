@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity(name = "users")
@@ -39,6 +40,7 @@ public class User {
     private boolean isVerified;
     private Instant lastLogin;
     private String lastLoginIp;
+    private String avatarFile;
 
     public User() {
     }
@@ -49,6 +51,7 @@ public class User {
         this.email = email;
         this.lastLogin = Instant.now();
         this.lastLoginIp = ip;
+        this.avatarFile = "default.jpg";
     }
 
     // Getters and Setters
@@ -189,7 +192,28 @@ public class User {
         this.lastLoginIp = lastLoginIp;
     }
 
+    public String getAvatarFile() {
+        return avatarFile;
+    }
+
+    public void setAvatarFile(String avatarFile) {
+        this.avatarFile = avatarFile;
+    }
+
     public User save() {
         return DorvakAuthServicesApplication.getInstance().getUserRepository().save(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+
+        return Objects.equals(this.id, user.id) && Objects.equals(this.email, user.email) && Objects.equals(this.username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.username, this.email);
     }
 }

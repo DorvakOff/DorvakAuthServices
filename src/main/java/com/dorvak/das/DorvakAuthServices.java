@@ -13,16 +13,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import java.util.logging.Logger;
 
 @SpringBootApplication
-public class DorvakAuthServicesApplication implements CommandLineRunner {
+public class DorvakAuthServices implements CommandLineRunner {
 
     public static final String APPLICATION_NAME = "DorvakAuthServices";
-    private static final Logger logger = Logger.getLogger(DorvakAuthServicesApplication.class.getName());
-    private static DorvakAuthServicesApplication INSTANCE;
+    private static DorvakAuthServices INSTANCE;
 
     @Autowired
     private ConfigurableApplicationContext ctx;
@@ -40,19 +42,20 @@ public class DorvakAuthServicesApplication implements CommandLineRunner {
     private JwtGenerator jtwGenerator;
 
     public static void main(String[] args) {
-        SpringApplication.run(DorvakAuthServicesApplication.class, args);
+        SpringApplication.run(DorvakAuthServices.class, args);
     }
 
-    public static DorvakAuthServicesApplication getInstance() {
+    public static DorvakAuthServices getInstance() {
         return INSTANCE;
     }
 
     public static Logger getLogger() {
-        return logger;
+        String clazz = Thread.currentThread().getStackTrace()[2].getClassName();
+        return Logger.getLogger(clazz);
     }
 
     private void shutdown() {
-        logger.info("Shutting down...");
+        getLogger().info("Shutting down...");
         if (ctx.isRunning()) {
             ctx.stop();
         }
@@ -64,7 +67,7 @@ public class DorvakAuthServicesApplication implements CommandLineRunner {
         INSTANCE = this;
         initManagers();
 
-        DorvakAuthServicesApplication.getLogger().info("Started up successfully!");
+        getLogger().info("Started up successfully!");
 
         Thread shutdownHook = new Thread(this::shutdown, "Shutdown Hook");
         Runtime.getRuntime().addShutdownHook(shutdownHook);
@@ -91,5 +94,15 @@ public class DorvakAuthServicesApplication implements CommandLineRunner {
 
     public JwtGenerator getJtwGenerator() {
         return jtwGenerator;
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+            }
+        };
     }
 }

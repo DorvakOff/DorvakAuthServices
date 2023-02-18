@@ -1,6 +1,6 @@
 package com.dorvak.das.config;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.utils.FileUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,11 +33,11 @@ public class ConfigurationLoader {
         } else {
             configuration = new Configuration();
             if (file.createNewFile()) {
-                DorvakAuthServicesApplication.getLogger().info("Created new config file");
+                DorvakAuthServices.getLogger().info("Created new config file");
             }
         }
         updateConfiguration();
-        DorvakAuthServicesApplication.getLogger().info("Loaded config file");
+        DorvakAuthServices.getLogger().info("Loaded config file");
         return configuration;
     }
 
@@ -49,7 +49,7 @@ public class ConfigurationLoader {
         File file = new File("DAS/config.json");
         try (FileWriter writer = new FileWriter(file)) {
             if (file.exists() & file.createNewFile()) {
-                DorvakAuthServicesApplication.getLogger().info("Updated config file");
+                DorvakAuthServices.getLogger().info("Updated config file");
             }
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(configuration);

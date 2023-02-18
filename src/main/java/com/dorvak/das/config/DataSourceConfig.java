@@ -1,6 +1,5 @@
 package com.dorvak.das.config;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

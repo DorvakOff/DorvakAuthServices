@@ -1,6 +1,6 @@
 package com.dorvak.das.utils;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.exceptions.ApplicationException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +20,7 @@ public class FileUtils {
     public static void createDirectory(String directoryName) {
         File directory = new File(directoryName);
         if (!directory.exists() && directory.mkdirs()) {
-            DorvakAuthServicesApplication.getLogger().info("Created new directory: " + directoryName);
+            DorvakAuthServices.getLogger().info("Created new directory: " + directoryName);
         }
     }
 
@@ -31,7 +31,7 @@ public class FileUtils {
     public static void generateFile(String path, String fileName) throws IOException {
         File file = new File(path, fileName);
         if (!file.exists() && file.createNewFile()) {
-            DorvakAuthServicesApplication.getLogger().info("Created new file: " + fileName);
+            DorvakAuthServices.getLogger().info("Created new file: " + fileName);
         }
     }
 
@@ -75,7 +75,7 @@ public class FileUtils {
 
     public static void deleteFile(File file) {
         if (file.exists() && !file.delete()) {
-            DorvakAuthServicesApplication.getLogger().warning("Failed to delete file: " + file.getName());
+            DorvakAuthServices.getLogger().warning("Failed to delete file: " + file.getName());
         }
     }
 }

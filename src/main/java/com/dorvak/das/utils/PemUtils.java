@@ -5,7 +5,7 @@
 
 package com.dorvak.das.utils;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemReader;
 import org.bouncycastle.util.io.pem.PemWriter;
@@ -45,9 +45,9 @@ public class PemUtils {
             EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
             publicKey = kf.generatePublic(keySpec);
         } catch (NoSuchAlgorithmException e) {
-            DorvakAuthServicesApplication.getLogger().severe("Could not reconstruct the public key, the given algorithm could not be found.");
+            DorvakAuthServices.getLogger().severe("Could not reconstruct the public key, the given algorithm could not be found.");
         } catch (InvalidKeySpecException e) {
-            DorvakAuthServicesApplication.getLogger().severe("Could not reconstruct the public key");
+            DorvakAuthServices.getLogger().severe("Could not reconstruct the public key");
         }
 
         return publicKey;
@@ -60,10 +60,10 @@ public class PemUtils {
             EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
             privateKey = kf.generatePrivate(keySpec);
         } catch (NoSuchAlgorithmException e) {
-            DorvakAuthServicesApplication.getLogger().severe("Could not reconstruct the private key, the given algorithm could not be found.");
+            DorvakAuthServices.getLogger().severe("Could not reconstruct the private key, the given algorithm could not be found.");
         } catch (InvalidKeySpecException e) {
             e.printStackTrace();
-            DorvakAuthServicesApplication.getLogger().severe("Could not reconstruct the private key");
+            DorvakAuthServices.getLogger().severe("Could not reconstruct the private key");
         }
 
         return privateKey;

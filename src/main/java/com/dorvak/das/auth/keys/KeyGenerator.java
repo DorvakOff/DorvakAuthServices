@@ -1,6 +1,6 @@
 package com.dorvak.das.auth.keys;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.utils.FileUtils;
 import com.dorvak.das.utils.PemUtils;
 
@@ -26,11 +26,11 @@ public class KeyGenerator {
     public KeyGenerator(String name) throws IOException, NoSuchAlgorithmException {
         keyFolder = new File(PATH);
         if (!keyFolder.exists() && keyFolder.mkdirs()) {
-            DorvakAuthServicesApplication.getLogger().info("Created key folder");
+            DorvakAuthServices.getLogger().info("Created key folder");
         }
         keyFolder = new File(PATH, name);
         if (!keyFolder.exists() && keyFolder.mkdirs()) {
-            DorvakAuthServicesApplication.getLogger().info("Created key folder for " + name);
+            DorvakAuthServices.getLogger().info("Created key folder for " + name);
         }
         initKeyPairs();
     }
@@ -39,7 +39,7 @@ public class KeyGenerator {
         if (FileUtils.fileExists(keyFolder.getPath(), RSA_PUBLIC_PEM) && FileUtils.fileExists(keyFolder.getPath(), RSA_PRIVATE_PEM)) {
             publicKey = PemUtils.readPublicKeyFromFile(keyFolder + File.separator + RSA_PUBLIC_PEM, KEY_ALGORITHM);
             privateKey = PemUtils.readPrivateKeyFromFile(keyFolder + File.separator + RSA_PRIVATE_PEM, KEY_ALGORITHM);
-            DorvakAuthServicesApplication.getLogger().info("KeyPair '" + keyFolder.getName() + "' loaded");
+            DorvakAuthServices.getLogger().info("KeyPair '" + keyFolder.getName() + "' loaded");
         } else {
             createKeys();
         }
@@ -58,7 +58,7 @@ public class KeyGenerator {
         privateKey = pair.getPrivate();
 
         saveKeyPair(pair);
-        DorvakAuthServicesApplication.getLogger().info("KeyPair '" + keyFolder.getName() + "' created");
+        DorvakAuthServices.getLogger().info("KeyPair '" + keyFolder.getName() + "' created");
     }
 
     private KeyPair generateKeys() throws NoSuchAlgorithmException {

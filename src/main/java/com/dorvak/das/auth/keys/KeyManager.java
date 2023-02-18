@@ -1,9 +1,7 @@
 package com.dorvak.das.auth.keys;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +18,7 @@ public class KeyManager {
             keyGenerators.put(name, new KeyGenerator(name));
         } catch (Exception e) {
             e.printStackTrace();
-            DorvakAuthServicesApplication.getLogger().severe("Failed to create key generator for " + name);
+            DorvakAuthServices.getLogger().severe("Failed to create key generator for " + name);
         }
         return keyGenerators.get(name);
     }

@@ -1,6 +1,6 @@
 package com.dorvak.das.mails;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.config.Configuration;
 import com.dorvak.das.utils.MultiThreading;
 import jakarta.mail.Authenticator;
@@ -34,7 +34,7 @@ public class MailManager {
     public MailManager(SpringTemplateEngine thymeleafTemplateEngine) {
         this.thymeleafTemplateEngine = thymeleafTemplateEngine;
         this.bannerFile = new FileSystemResource("DAS/resources/mail-templates/banner.png");
-        Configuration configuration = DorvakAuthServicesApplication.getInstance().getConfiguration();
+        Configuration configuration = DorvakAuthServices.getInstance().getConfiguration();
         Properties properties = new Properties();
         properties.put("mail.smtp.host", configuration.getMailHost());
         properties.put("mail.smtp.port", configuration.getMailPort());
@@ -59,7 +59,7 @@ public class MailManager {
         MultiThreading.runAsync(() -> {
             try {
                 MimeMessage message = new MimeMessage(session);
-                Configuration configuration = DorvakAuthServicesApplication.getInstance().getConfiguration();
+                Configuration configuration = DorvakAuthServices.getInstance().getConfiguration();
                 message.setFrom(new InternetAddress(configuration.getMailAddress(), configuration.getMailUsername()));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(String.join(",", to)));
                 message.setSubject(subject);

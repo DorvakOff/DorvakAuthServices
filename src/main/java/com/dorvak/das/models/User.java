@@ -1,6 +1,6 @@
 package com.dorvak.das.models;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -45,13 +45,12 @@ public class User {
     public User() {
     }
 
-    public User(String username, String password, String email, String ip) {
+    public User(String username, String password, String email, String lastLoginIp) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.lastLogin = Instant.now();
-        this.lastLoginIp = ip;
-        this.avatarFile = "default.jpg";
+        this.lastLoginIp = lastLoginIp;
     }
 
     // Getters and Setters
@@ -201,7 +200,7 @@ public class User {
     }
 
     public User save() {
-        return DorvakAuthServicesApplication.getInstance().getUserRepository().save(this);
+        return DorvakAuthServices.getInstance().getUserRepository().save(this);
     }
 
     @Override

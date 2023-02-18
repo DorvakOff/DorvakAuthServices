@@ -1,6 +1,6 @@
 package com.dorvak.das.controllers;
 
-import com.dorvak.das.DorvakAuthServicesApplication;
+import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.auth.CodeGenerator;
 import com.dorvak.das.models.User;
 import com.dorvak.das.repositories.UserRepository;
@@ -37,7 +37,7 @@ public class VerificationCodeController {
         user.setVerified(true);
         userRepository.save(user);
 
-        DorvakAuthServicesApplication.getLogger().info("Verified user " + user.getUsername());
+        DorvakAuthServices.getLogger().info("Verified user " + user.getUsername());
         return ResponseEntity.ok().build();
     }
 }

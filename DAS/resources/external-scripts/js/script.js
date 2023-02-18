@@ -38,7 +38,7 @@ button.onclick = () => {
     }
 
     // Open popup
-    popup = window.open('popup.html', 'popup', 'width=400,height=450')
+    popup = window.open('https://raw.githubusercontent.com/DorvakOff/DorvakAuthServices/main/DAS/resources/external-scripts/html/popup.html', 'popup', 'width=400,height=450')
     popup.addEventListener('message', (message) => {
         message = message.data
         localStorage.setItem('token', message)

@@ -130,6 +130,22 @@
                 <version>3.0.0</version>
                 <executions>
                     <!-- Required: The following will ensure `npm install` is called
+					     before anything else during the 'Default Lifecycle' -->
+                    <execution>
+                        <id>npm install (initialize)</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <executable>npm</executable>
+                            <arguments>
+                                <argument>install</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <!-- Required: The following will ensure `npm install` is called
                          before anything else during the 'Clean Lifecycle' -->
                     <execution>
                         <id>npm install (clean)</id>

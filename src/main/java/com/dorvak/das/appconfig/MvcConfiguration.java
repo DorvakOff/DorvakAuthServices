@@ -1,4 +1,4 @@
-package com.dorvak.das;
+package com.dorvak.das.appconfig;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;

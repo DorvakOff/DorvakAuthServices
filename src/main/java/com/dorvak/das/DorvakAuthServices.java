@@ -5,6 +5,7 @@ import com.dorvak.das.auth.keys.KeyManager;
 import com.dorvak.das.config.Configuration;
 import com.dorvak.das.config.ConfigurationLoader;
 import com.dorvak.das.mails.MailManager;
+import com.dorvak.das.repositories.Oauth2ApplicationRepository;
 import com.dorvak.das.repositories.UserRepository;
 import com.dorvak.das.utils.MultiThreading;
 import com.dorvak.das.utils.cache.CacheUtils;
@@ -31,6 +32,9 @@ public class DorvakAuthServices implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Oauth2ApplicationRepository oauth2ApplicationRepository;
 
     @Autowired
     private ConfigurationLoader configurationLoader;
@@ -68,7 +72,6 @@ public class DorvakAuthServices implements CommandLineRunner {
         initManagers();
 
         getLogger().info("Started up successfully!");
-
         Thread shutdownHook = new Thread(this::shutdown, "Shutdown Hook");
         Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
@@ -82,6 +85,10 @@ public class DorvakAuthServices implements CommandLineRunner {
 
     public UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public Oauth2ApplicationRepository getOauth2ApplicationRepository() {
+        return oauth2ApplicationRepository;
     }
 
     public Configuration getConfiguration() {

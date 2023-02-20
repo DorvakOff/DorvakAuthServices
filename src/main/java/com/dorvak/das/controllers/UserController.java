@@ -1,16 +1,10 @@
 package com.dorvak.das.controllers;
 
-import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.auth.AuthManager;
-import com.dorvak.das.dto.LoginDto;
 import com.dorvak.das.dto.UserDto;
-import com.dorvak.das.exceptions.AuthException;
 import com.dorvak.das.models.User;
-import com.dorvak.das.utils.Checks;
 import com.dorvak.das.utils.FileUtils;
 import com.dorvak.das.utils.ImageUtils;
-import com.dorvak.das.utils.IpUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +12,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,39 +22,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-
-
-    @PostMapping("/login")
-    public String login(@RequestBody LoginDto loginDto, HttpServletRequest request) {
-        User user = AuthManager.login(loginDto.username(), loginDto.email(), loginDto.password());
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
-        user.setLastLogin(Instant.now());
-        user.setLastLoginIp(IpUtils.getIp(request));
-        user.save();
-        return DorvakAuthServices.getInstance().getJtwGenerator().generateToken(user);
-    }
-
-    @PostMapping("/register")
-    public String register(@RequestBody LoginDto loginDto, HttpServletRequest request) {
-        Checks.notNull(loginDto.username(), "username");
-        Checks.notNull(loginDto.password(), "password");
-        Checks.notNull(loginDto.email(), "email");
-        try {
-            User user = AuthManager.createUser(loginDto.username(), loginDto.password(), loginDto.email(), IpUtils.getIp(request));
-            return DorvakAuthServices.getInstance().getJtwGenerator().generateToken(user);
-        } catch (AuthException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }
 
     @GetMapping("/data")
     public UserDto getUserData(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {

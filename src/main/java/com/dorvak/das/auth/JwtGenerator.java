@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.auth.keys.KeyGenerator;
 import com.dorvak.das.auth.keys.KeyManager;
+import com.dorvak.das.models.Oauth2Application;
 import com.dorvak.das.models.User;
 
 import java.security.interfaces.RSAPrivateKey;
@@ -16,7 +17,7 @@ import java.sql.Date;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.TemporalAmount;
-import java.util.UUID;
+import java.util.List;
 
 public class JwtGenerator {
 
@@ -31,20 +32,14 @@ public class JwtGenerator {
         this.expirationTime = Duration.ofDays(7);
     }
 
-    public String generateToken(User user) throws JWTCreationException {
+    public String generateToken(User user, Oauth2Application application, List<String> scopes) throws JWTCreationException {
         return JWT.create()
                 .withIssuer(DorvakAuthServices.APPLICATION_NAME)
                 .withClaim("uuid", user.getId().toString())
+                .withClaim("client_id", application.getClientId())
+                .withClaim("scopes", scopes)
                 .withExpiresAt(Date.from(Instant.now().plus(expirationTime)))
                 .sign(algorithm);
-    }
-
-    public String generateToken(String uuid) {
-        return this.generateToken(UUID.fromString(uuid));
-    }
-
-    public String generateToken(UUID uuid) {
-        return this.generateToken(DorvakAuthServices.getInstance().getUserRepository().findById(uuid).orElseThrow());
     }
 
     public String verifyToken(String token) throws JWTVerificationException {

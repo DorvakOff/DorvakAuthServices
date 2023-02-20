@@ -1,5 +1,6 @@
-package com.dorvak.das;
+package com.dorvak.das.appconfig;
 
+import com.dorvak.das.DorvakAuthServices;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

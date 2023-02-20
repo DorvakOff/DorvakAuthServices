@@ -1,0 +1,5 @@
+<div class="alert-box">
+  <app-alert *ngFor="let alert of alertHandler.alerts" [additionalInfos]="alert.additionalInfos" [body]="alert.body"
+             [severity]="alert.severity"
+             [title]="alert.title"></app-alert>
+</div>

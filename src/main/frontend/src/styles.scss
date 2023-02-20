@@ -1,0 +1,180 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$angular-material-primary: mat.define-palette(mat.$indigo-palette);
+$angular-material-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$angular-material-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$angular-material-theme: mat.define-light-theme((
+  color: (
+    primary: $angular-material-primary,
+    accent: $angular-material-accent,
+    warn: $angular-material-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($angular-material-theme);
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+body {
+  --body-background: rgb(46, 50, 54);
+  --text-color-hover: #1abc9c;
+  background-color: var(--body-background);
+  color: #ffffff;
+}
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-color-hover);
+}
+
+[ng-reflect-tooltip]:not(i) {
+  text-decoration: underline dotted var(--text-color-hover);
+}
+
+.tooltip-container {
+  text-align: center;
+  z-index: 100;
+  position: fixed;
+  padding: 6px 12px;
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: initial;
+  color: white;
+  width: auto;
+  background: #111111ee;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translate(-50%, -30%);
+  animation: tooltip-slide 0.18s ease-out 0.5s;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+
+.tooltip-container:before {
+  content: '';
+  display: block;
+  width: auto;
+  height: 0;
+  position: absolute;
+
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #111111ee;
+
+  top: -8px;
+  left: 43%;
+  right: 57%;
+}
+
+@keyframes tooltip-slide {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+input {
+  background-color: transparent;
+  border: var(--text-color-hover) 1px solid;
+  padding: 5px 10px;
+  width: 100%;
+  color: #ffffff;
+  border-radius: 5px;
+
+  &.sensitive-content {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+input:focus {
+  outline: var(--text-color-hover) 1px solid;
+  background-color: var(--dark);
+}
+
+hr {
+  color: var(--text-color-hover);
+}
+
+.mat-button .mat-button-wrapper {
+  color: #ffffff;
+
+  span {
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .fa.fa-chevron-down {
+    transition: transform .3s ease-in-out;
+  }
+}
+
+button.mat-focus-indicator[aria-expanded] {
+  .fa.fa-chevron-down {
+    transform: rotate(180deg);
+  }
+
+  span {
+    color: var(--text-color-hover);
+  }
+}
+
+.mat-menu-panel {
+  background-color: rgba(var(--bs-dark-rgb), 1) !important;
+  border: 1px solid var(--text-color-hover);
+
+  span, a, .mat-menu-item {
+    color: #ffffff;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-left: 0;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  li:hover * {
+    color: var(--text-color-hover)
+  }
+}
+
+.mat-menu-submenu-icon {
+  color: #ffffff;
+}

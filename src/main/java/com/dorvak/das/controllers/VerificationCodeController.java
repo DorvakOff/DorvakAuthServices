@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/verify")
+@RequestMapping("/api/verify")
 public class VerificationCodeController {
 
     @Autowired

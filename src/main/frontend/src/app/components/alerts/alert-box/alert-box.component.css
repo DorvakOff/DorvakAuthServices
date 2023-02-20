@@ -1,0 +1,12 @@
+.alert-box {
+    top: 75px;
+    right: 0;
+    width: 510px;
+    position: absolute;
+}
+
+@media (max-width: 860px) {
+    .alert-box {
+        width: 95%;
+    }
+}

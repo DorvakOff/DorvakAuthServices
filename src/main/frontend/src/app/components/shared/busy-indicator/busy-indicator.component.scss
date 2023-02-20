@@ -1,0 +1,16 @@
+.mask {
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.spinner-border {
+  color: var(--text-color-hover);
+  border-bottom: 1px;
+}

@@ -35,3 +35,6 @@ build/
 /DAS/security
 /DAS/config.json
 /DAS/users
+/src/main/frontend/node_modules/
+/src/main/frontend/dist/
+/src/main/frontend/.angular/

@@ -1,0 +1,13 @@
+<div *ngIf="title || body || additionalInfos"
+     class="alert alert-{{severity}} alert-dismissible fade show align-items-center"
+     role="alert">
+    <h4 *ngIf="title" class="alert-heading">{{title}}</h4>
+    <p *ngIf="body">
+        {{body}}
+    </p>
+    <hr *ngIf="body && additionalInfos"/>
+    <p *ngIf="additionalInfos" class="mb-0">
+        {{additionalInfos}}
+    </p>
+    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+</div>

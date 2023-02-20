@@ -1,0 +1,46 @@
+.alert {
+    z-index: 1031;
+    position: relative;
+    left: 0;
+    width: 490px;
+    max-width: 490px;
+    overflow: hidden;
+    animation: showLeft 1s ease-out;
+}
+
+@media (max-width: 860px) {
+    .alert {
+        width: 100%;
+        max-width: 100%;
+        animation: showLeftMobile 1s ease-out;
+    }
+}
+
+@keyframes showLeft {
+    from {
+        width: 0;
+        left: 500px;
+        overflow: hidden;
+    }
+    to {
+        width: 490px;
+        max-width: 490px;
+        overflow: initial;
+        left: 0;
+    }
+}
+
+
+@keyframes showLeftMobile {
+    from {
+        width: 0;
+        left: 100%;
+        overflow: hidden;
+    }
+    to {
+        width: 100%;
+        max-width: 100%;
+        overflow: initial;
+        left: 0;
+    }
+}

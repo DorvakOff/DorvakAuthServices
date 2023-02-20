@@ -1,5 +1,4 @@
 name: AutoDeploy
-description: Deploying the app to the server
 on:
   workflow_dispatch:
 jobs:

@@ -1,0 +1,29 @@
+.faq {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    &:before {
+      content: 'Q: ';
+      font-weight: 600;
+    }
+  }
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    background-color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 10px;
+
+    &:before {
+      content: 'A: ';
+      font-weight: 600;
+    }
+  }
+}

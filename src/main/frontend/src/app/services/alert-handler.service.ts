@@ -1,42 +1,42 @@
 import {Injectable} from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AlertHandlerService {
 
-    alerts: Alert[] = [];
+  alerts: Alert[] = [];
 
-    constructor() {
-    }
+  constructor() {
+  }
 
-    public raiseError(title: string, body: string) {
-        this.addAlert({
-            severity: 'danger',
-            title: title,
-            body: body
-        })
-    }
+  public raiseError(error: Error | string) {
+    this.addAlert({
+      severity: 'danger',
+      title: 'An error occurred',
+      body: typeof error === 'string' ? error : error.message
+    })
+  }
 
-    public sendSuccess(title: string, body: string) {
-        this.addAlert({
-            severity: 'success',
-            title: title,
-            body: body
-        })
-    }
+  public sendSuccess(title: string, body: string) {
+    this.addAlert({
+      severity: 'success',
+      title: title,
+      body: body
+    })
+  }
 
-    private addAlert(alert: Alert) {
-        this.alerts.push(alert)
-        setTimeout(() => {
-            this.alerts.shift()
-        }, 5000)
-    }
+  private addAlert(alert: Alert) {
+    this.alerts.push(alert)
+    setTimeout(() => {
+      this.alerts.shift()
+    }, 5000)
+  }
 }
 
 export interface Alert {
-    severity: 'primary' | 'danger' | 'success' | 'warning'
-    title: string
-    body: string
-    additionalInfos?: string
+  severity: 'primary' | 'danger' | 'success' | 'warning'
+  title: string
+  body: string
+  additionalInfos?: string
 }

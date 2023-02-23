@@ -1,0 +1,56 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 bordered-primary" style="width: 100%">
+      <h1>Login or create an account</h1>
+      <hr/>
+      <div class="row">
+        <div class="col-md-6">
+          <!-- login form -->
+          <h2>Login</h2>
+          <div class="py-2">
+            <label for="email1">Email</label>
+            <br/>
+            <input id="email1" name="email" placeholder="Email" style="width: 250px" type="email" [(ngModel)]="loginEmail" [disabled]="loading"/>
+          </div>
+          <div class="py-2">
+            <label for="password">Password</label>
+            <br/>
+            <input id="password" name="password" placeholder="Password" style="width: 250px" type="password" [(ngModel)]="loginPassword" [disabled]="loading"/>
+          </div>
+          <div class="py-3" style="width: 250px">
+            <app-button type="outline-wide-info" (onClick)="login()" [disabled]="loading">Login</app-button>
+          </div>
+        </div>
+        <div class="col-md-6" (keydown.enter)="createAccount()">
+          <h2>Create an account</h2>
+          <div class="py-2">
+            <label for="username2">Username</label>
+            <br/>
+            <input id="username2" name="username" placeholder="Username" style="width: 250px" type="text" [(ngModel)]="username" [disabled]="loading"/>
+          </div>
+          <div class="py-2">
+            <label for="email">Email</label>
+            <br/>
+            <input id="email" name="email" placeholder="Email" style="width: 250px" type="email" [(ngModel)]="email" [disabled]="loading"/>
+          </div>
+          <div class="py-2">
+            <label for="password2">Password</label>
+            <br/>
+            <input id="password2" name="password" placeholder="Password" style="width: 250px" type="password" [(ngModel)]="password" [disabled]="loading"/>
+          </div>
+          <div class="py-2">
+            <label for="confirm">Confirm Password</label>
+            <br/>
+            <input id="confirm" name="password" placeholder="Password" style="width: 250px" type="password" [(ngModel)]="confirmPassword" [disabled]="loading"/>
+          </div>
+          <div class="py-3" style="width: 250px">
+            <app-button type="outline-wide-info" (onClick)="createAccount()" [disabled]="loading">
+              <span *ngIf="!loading">Create Account</span>
+              <span *ngIf="loading"><i class="fas fa-circle-notch fa-spin"></i> </span>
+            </app-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

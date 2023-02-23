@@ -4,8 +4,8 @@ import {NgcCookieConsentService} from "ngx-cookieconsent";
 import {TranslationService} from "./services/translation.service";
 import {filter, map, mergeMap} from "rxjs";
 import {Title} from "@angular/platform-browser";
-
-declare let gtag: Function;
+import {UserService} from "./services/user.service";
+import {NavigationService} from "./services/navigation.service";
 
 @Component({
   selector: 'app-root',
@@ -16,12 +16,19 @@ declare let gtag: Function;
 export class AppComponent {
 
   appName = 'DorvakAuthServices';
-  googleAnalyticsCode = 'UA-162370389-1'
 
-  constructor(public router: Router, _cookieConsent: NgcCookieConsentService, _translate: TranslationService, private activatedRoute: ActivatedRoute, private titleService: Title) {
+  securedPages: string[] = [
+    '/settings',
+  ]
+
+  constructor(public router: Router, _cookieConsent: NgcCookieConsentService, _translate: TranslationService, private activatedRoute: ActivatedRoute, private titleService: Title, private userService: UserService, private navigationService: NavigationService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        gtag('config', this.googleAnalyticsCode, {'page_path': event.urlAfterRedirects});
+        if (this.securedPages.includes(event.urlAfterRedirects)) {
+          if (!this.userService.user) {
+            this.navigationService.navigate('login?redirect=' + event.urlAfterRedirects)
+          }
+        }
       }
     });
   }

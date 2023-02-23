@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgcCookieConsentConfig, NgcCookieConsentModule} from "ngx-cookieconsent";
 import {AppRoutingModule} from "./app-routing.module";
@@ -19,6 +19,10 @@ import {ButtonComponent} from "./components/shared/button/button.component";
 import {SwitchButtonComponent} from "./components/shared/switch-button/switch-button.component";
 import {AlertComponent} from "./components/alerts/alert/alert.component";
 import {AlertBoxComponent} from "./components/alerts/alert-box/alert-box.component";
+import {MenuComponent} from "./components/menu/menu.component";
+import { HomeComponent } from './pages/home/home.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -62,6 +66,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       SwitchButtonComponent,
       AlertComponent,
       AlertBoxComponent,
+      MenuComponent,
+      HomeComponent,
+      SettingsComponent,
+      LoginComponent
     ],
     imports: [
         BrowserModule,

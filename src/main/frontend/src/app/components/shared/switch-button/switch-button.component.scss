@@ -1,8 +1,10 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 40px;
+  height: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
 
   input {
     opacity: 0;
@@ -26,10 +28,10 @@
   &:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: 18px;
+    width: 18px;
+    left: 1px;
+    bottom: 1px;
     background-color: var(--body-background);
     -webkit-transition: .4s;
     transition: .4s;
@@ -44,8 +46,8 @@
 input:checked + .slider {
   background-color: var(--text-color-hover);
 
-  &:hover:before, &:before {
-    background-color: #ffffff;
+  &:before, &:hover:before {
+    background-color: var(--body-background);
   }
 }
 
@@ -54,7 +56,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(19px);
+  -ms-transform: translateX(19px);
+  transform: translateX(19px);
 }

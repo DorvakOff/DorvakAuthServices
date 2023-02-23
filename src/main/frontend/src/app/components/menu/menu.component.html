@@ -1,0 +1,119 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="min-height: 70px">
+  <!-- Navbar brand -->
+  <a class="navbar-brand mt-2 mt-lg-0" routerLink="/">
+    <img alt="Application Logo" loading="lazy" src="../../../assets/images/favicon.ico"/>
+  </a>
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ng-container *ngFor="let menuItem of schema">
+
+        <ng-container *ngIf="!menuItem.children">
+          <a (click)="resolveLink(menuItem)"
+             [class]="'nav-link ' + (menuItem.data ? menuItem.data.additionalClasses : '')">
+            <span class="text-holder">{{menuItem.title | uppercase}}</span>&nbsp;
+          </a>
+        </ng-container>
+        <ng-container *ngIf="menuItem.children && menuItem.children.length > 0">
+          <button #button #levelOneTrigger="matMenuTrigger" (mouseenter)="buttonEnter(levelOneTrigger)"
+                  (mouseleave)="buttonLeave(levelOneTrigger, button)"
+                  [matMenuTriggerFor]="levelOne" mat-button
+                  style="z-index:1050">
+            <span *ngIf="menuItem.data && menuItem.data.icon" [ngClass]="menuItem.data.icon" class="icon fa"></span>
+            <span>{{menuItem.title | uppercase}}
+              <i class="fa fa-chevron-down"></i>
+      </span>
+          </button>
+
+          <mat-menu #levelOne="matMenu" direction="down" yPosition="below">
+      <span (mouseenter)="menuEnter()" (mouseleave)="menuLeave(levelOneTrigger, button)">
+      <ng-container *ngFor="let childL1 of menuItem.children">
+        <li *ngIf="!childL1.children" class="p-0" mat-menu-item>
+          <a (click)="resolveLink(childL1)"
+             [class]="'nav-link ' + (childL1.data ? childL1.data.additionalClasses : '')">{{childL1.title | uppercase}}
+            <i *ngIf="childL1.data && childL1.data.icon" [ngClass]="childL1.data.icon"></i>
+          </a>
+        </li>
+        <ng-container *ngIf="childL1.children && childL1.children.length > 0">
+          <li #levelTwoTrigger="matMenuTrigger" [matMenuTriggerFor]="levelTwo" mat-menu-item>
+            <span *ngIf="childL1.data && childL1.data.icon" [ngClass]="childL1.data.icon" class="icon fa"></span>
+            <span>{{childL1.title | uppercase}}</span>
+          </li>
+
+          <mat-menu #levelTwo="matMenu">
+            <span (mouseenter)="menu2Enter()" (mouseleave)="menu2Leave(levelOneTrigger,levelTwoTrigger, button)">
+            <ng-container *ngFor="let childL2 of childL1.children">
+              <li class="p-0" mat-menu-item>
+                <a (click)="resolveLink(childL2)"
+                   [class]="'nav-link ' + (childL2.data ? childL2.data.additionalClasses : '')">{{childL2.title | uppercase}}
+                  <i *ngIf="childL2.data && childL2.data.icon" [ngClass]="childL2.data.icon"></i>
+                </a>
+              </li>
+            </ng-container>
+            </span>
+          </mat-menu>
+        </ng-container>
+      </ng-container>
+      </span>
+          </mat-menu>
+        </ng-container>
+
+      </ng-container>
+      <ul class="navbar-nav right-items">
+        <!-- Lang selection -->
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+            <img [alt]="translation.getLanguageName(translation.getLang())"
+                 [src]="translation.getFlag(translation.getLang())"
+                 class="lang-flag"/>
+            {{translation.getLang() | uppercase}}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" style="min-width: 10px">
+            <li *ngFor="let lang of translation.languagesConfig"><a (click)="translation.changeLang(lang.code)"
+                                                                    class="dropdown-item"
+                                                                    role="button">
+              <img [alt]="'Flag for ' + lang.code" [src]="translation.getFlag(lang.code)" class="lang-flag"/>
+              {{lang.code | uppercase}}
+            </a></li>
+          </ul>
+        </li>
+        <!-- Login button -->
+        <li *ngIf="!userService.user" class="nav-item">
+          <app-button (onClick)="login()" type="outline-info">
+            Login&nbsp;
+            <i class="fa fa-user"></i>
+          </app-button>
+        </li>
+        <!-- Access to account button with avatar dropdown -->
+        <li *ngIf="userService.user" class="nav-item dropdown">
+          <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
+            <img [src]="userService.user.avatarUrl" alt="User avatar" class="rounded" width="48px"/>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" style="min-width: 10px">
+            <li>
+              <a class="dropdown-item" role="button" routerLink="/settings">
+                Settings
+              </a>
+            </li>
+            <li>
+              <a (click)="userService.logout()" class="dropdown-item logout-button" role="button" routerLink="/">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!-- Right elements -->
+    </div>
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<div class="fake-nav"></div>

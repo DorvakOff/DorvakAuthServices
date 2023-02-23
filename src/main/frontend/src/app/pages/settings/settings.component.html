@@ -1,0 +1,29 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 bordered-primary" style="width: 100%">
+      <h1>Account Settings</h1>
+      <p>Change your account settings here.</p>
+      <hr>
+      <div class="pb-4">
+        <h2 class="pb-3">Change Password</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="oldPassword">Old Password</label>
+            <input class="form-control" id="oldPassword" placeholder="Old Password" type="password" [(ngModel)]="oldPassword">
+          </div>
+          <div class="col-md-4">
+            <label for="newPassword">New Password</label>
+            <input class="form-control" id="newPassword" placeholder="New Password" type="password" [(ngModel)]="password">
+          </div>
+          <div class="col-md-4">
+            <label for="newPasswordConfirm">Confirm New Password</label>
+            <input class="form-control" id="newPasswordConfirm" placeholder="Confirm New Password" type="password" [(ngModel)]="confirmPassword">
+          </div>
+        </div>
+        <div class="py-4" style="position: relative">
+          <app-button style="position: absolute; right: 0" type="outline-info" (onClick)="changePassword()">Change Password</app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -55,7 +55,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--text-color);
+  background: var(--text-color-hover);
   border-radius: 10px;
 }
 
@@ -177,4 +177,57 @@ button.mat-focus-indicator[aria-expanded] {
 
 .mat-menu-submenu-icon {
   color: #ffffff;
+}
+
+.bordered-primary {
+  border: 2px solid var(--text-color-hover);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 15px 30px;
+}
+
+input[type="password"], input[type="text"], input[type="email"], input[type="number"] {
+  border: 1px solid var(--text-color-hover);
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 100%;
+  color: #ffffff;
+  background-color: transparent;
+
+  &:focus {
+    outline: var(--text-color-hover) 1px solid;
+    background-color: var(--dark);
+    caret-color: var(--text-color-hover);
+    color: #ffffff;
+  }
+
+  &:disabled {
+    border-color: #555555;
+    color: #ffffff;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-decoration: underline;
+  text-decoration-color: var(--text-color-hover);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a[href] {
+  color: var(--text-color-hover);
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--text-color-hover);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    color: var(--text-color-hover);
+  }
 }

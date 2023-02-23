@@ -6,12 +6,22 @@ import {TranslateService} from "@ngx-translate/core";
 })
 export class TranslationService {
 
-  defaultLang: { code: string, name: string } = {code: 'en', name: 'English'}
-  languagesConfig: { code: string, name: string }[] = [{
-    "code": "fr", "name": "Français"
-  }, {
-    "code": "en", "name": "English"
-  }]
+  defaultLang: Language = {
+    code: 'en',
+    name: 'English'
+  }
+
+  languagesConfig: Language[] = [
+    {
+      code: "fr",
+      name: "Français"
+    },
+    {
+      code: "en",
+      name: "English"
+    }
+  ]
+
   languages: string[] = this.languagesConfig.map((lang: any) => lang.code)
 
   constructor(private translate: TranslateService) {
@@ -49,4 +59,9 @@ export class TranslationService {
   getFlag(code: string): string {
     return `assets/images/flags/${code.toLowerCase()}_flag.png`
   }
+}
+
+export interface Language {
+  code: string
+  name: string
 }

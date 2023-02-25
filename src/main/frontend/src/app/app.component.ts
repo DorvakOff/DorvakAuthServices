@@ -25,9 +25,14 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.securedPages.includes(event.urlAfterRedirects)) {
-          if (!this.userService.user) {
-            this.navigationService.navigate('login?redirect=' + event.urlAfterRedirects)
-          }
+          let task = setInterval(() => {
+            if (!this.userService.autoLoginLoading) {
+              clearInterval(task)
+              if (!this.userService.user) {
+                this.navigationService.navigate('login?redirect=' + event.urlAfterRedirects)
+              }
+            }
+          }, 100)
         }
       }
     });

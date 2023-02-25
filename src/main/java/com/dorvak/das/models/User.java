@@ -41,16 +41,18 @@ public class User {
     private Instant lastLogin;
     private String lastLoginIp;
     private String avatarFile;
+    private String language;
 
     public User() {
     }
 
-    public User(String username, String password, String email, String lastLoginIp) {
+    public User(String username, String password, String email, String lastLoginIp, String language) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.lastLogin = Instant.now();
         this.lastLoginIp = lastLoginIp;
+        this.language = language;
     }
 
     // Getters and Setters
@@ -214,5 +216,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.username, this.email);
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

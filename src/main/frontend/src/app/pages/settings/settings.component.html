@@ -6,22 +6,39 @@
       <hr>
       <div class="pb-4">
         <h2 class="pb-3">Change Password</h2>
-        <div class="row">
+        <div (keydown.enter)="changePassword()" class="row">
           <div class="col-md-4">
             <label for="oldPassword">Old Password</label>
-            <input class="form-control" id="oldPassword" placeholder="Old Password" type="password" [(ngModel)]="oldPassword">
+            <input [(ngModel)]="oldPassword" [disabled]="loading" class="form-control" id="oldPassword"
+                   placeholder="Old Password" type="password">
           </div>
           <div class="col-md-4">
             <label for="newPassword">New Password</label>
-            <input class="form-control" id="newPassword" placeholder="New Password" type="password" [(ngModel)]="password">
+            <input [(ngModel)]="password" [disabled]="loading" class="form-control" id="newPassword"
+                   placeholder="New Password" type="password">
           </div>
           <div class="col-md-4">
             <label for="newPasswordConfirm">Confirm New Password</label>
-            <input class="form-control" id="newPasswordConfirm" placeholder="Confirm New Password" type="password" [(ngModel)]="confirmPassword">
+            <input [(ngModel)]="confirmPassword" [disabled]="loading" class="form-control"
+                   id="newPasswordConfirm"
+                   placeholder="Confirm New Password" type="password">
           </div>
         </div>
         <div class="py-4" style="position: relative">
-          <app-button style="position: absolute; right: 0" type="outline-info" (onClick)="changePassword()">Change Password</app-button>
+          <app-button (onClick)="changePassword()" [disabled]="loading" style="position: absolute; right: 0"
+                      type="outline-info">Change
+            Password
+          </app-button>
+        </div>
+      </div>
+      <hr/>
+      <div class="pb-4">
+        <h2 class="pb-3">Change Avatar</h2>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 ">
+            <input (change)="onAvatarFileSubmit($event)" [disabled]="loading" class="form-control-file" id="avatar"
+                   type="file">
+          </div>
         </div>
       </div>
     </div>

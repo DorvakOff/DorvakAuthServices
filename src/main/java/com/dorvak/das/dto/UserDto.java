@@ -8,14 +8,20 @@ public record UserDto(
         UUID id,
         String username,
         String email,
-        String avatar) {
+        String avatar,
+        String language) {
 
     public UserDto(User user) {
         this(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getAvatarFile()
+                getAvatarUrl(user),
+                user.getLanguage()
         );
+    }
+
+    public static String getAvatarUrl(User user) {
+        return "/api/user/avatar/" + user.getId() + "/" + user.getAvatarFile();
     }
 }

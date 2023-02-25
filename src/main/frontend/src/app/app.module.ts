@@ -23,6 +23,7 @@ import {MenuComponent} from "./components/menu/menu.component";
 import { HomeComponent } from './pages/home/home.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { LoginComponent } from './pages/login/login.component';
+import { VerificationComponent } from './pages/verification/verification.component';
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -69,7 +70,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       MenuComponent,
       HomeComponent,
       SettingsComponent,
-      LoginComponent
+      LoginComponent,
+      VerificationComponent
     ],
     imports: [
         BrowserModule,

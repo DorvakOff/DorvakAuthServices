@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.dorvak.das.DorvakAuthServices;
 import com.dorvak.das.auth.keys.KeyGenerator;
 import com.dorvak.das.auth.keys.KeyManager;
@@ -42,7 +43,26 @@ public class JwtGenerator {
                 .sign(algorithm);
     }
 
-    public String verifyToken(String token) throws JWTVerificationException {
-        return verifier.verify(token).getClaim("uuid").asString();
+    public String generateToken(User user) throws JWTCreationException {
+        return JWT.create()
+                .withIssuer(DorvakAuthServices.APPLICATION_NAME)
+                .withClaim("uuid", user.getId().toString())
+                .withClaim("client_id", "das")
+                .withExpiresAt(Date.from(Instant.now().plus(expirationTime)))
+                .sign(algorithm);
+    }
+
+    public String verifyToken(String token, boolean onlyUserToken) throws JWTVerificationException {
+        DecodedJWT jwt = verifier.verify(token);
+
+        if (onlyUserToken) {
+            if ("das".equals(jwt.getClaim("client_id").asString())) {
+                return jwt.getClaim("uuid").asString();
+            } else {
+                throw new JWTVerificationException("Token is not a user token");
+            }
+        } else {
+            return jwt.getClaim("uuid").asString();
+        }
     }
 }

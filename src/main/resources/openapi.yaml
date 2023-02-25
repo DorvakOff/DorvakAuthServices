@@ -2,13 +2,13 @@ openapi: "3.0.3"
 info:
   title: "DorvakAuthServices API"
   description: "DorvakAuthServices API"
-  version: "1.0.0"
+  version: "1.0.1"
 servers:
-  - url: "https://DorvakAuthServices"
+  - url: "https://auth.dorvak.com"
 paths:
-  /user/avatar:
+  /api/user/avatar:
     post:
-      summary: "POST user/avatar"
+      summary: "POST api/user/avatar"
       operationId: "setAvatar"
       parameters:
         - name: "avatar"
@@ -25,9 +25,9 @@ paths:
       responses:
         "200":
           description: "OK"
-  /user/avatar/{uuid}/{avatar}:
+  /api/user/avatar/{uuid}/{avatar}:
     get:
-      summary: "GET user/avatar/{uuid}/{avatar}"
+      summary: "GET api/user/avatar/{uuid}/{avatar}"
       operationId: "getAvatar"
       parameters:
         - name: "uuid"
@@ -63,9 +63,26 @@ paths:
                 items:
                   type: "string"
                   format: "byte"
-  /user/data:
+  /api/user/create-account:
+    post:
+      summary: "POST api/user/create-account"
+      operationId: "createAccount"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/user/data:
     get:
-      summary: "GET user/data"
+      summary: "GET api/user/data"
       operationId: "getUserData"
       parameters:
         - name: "Authorization"
@@ -80,9 +97,9 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/UserDto"
-  /user/login:
+  /api/user/login:
     post:
-      summary: "POST user/login"
+      summary: "POST api/user/login"
       operationId: "login"
       requestBody:
         content:
@@ -97,15 +114,43 @@ paths:
             '*/*':
               schema:
                 type: "string"
-  /user/register:
+  /api/oauth2/authorize:
+    get:
+      summary: "GET api/oauth2/authorize"
+      operationId: "authorize"
+      parameters:
+        - name: "client_id"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "redirect_uri"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "scope"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            default: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Oauth2ApplicationDto"
+  /api/oauth2/token:
     post:
-      summary: "POST user/register"
-      operationId: "register"
+      summary: "POST api/oauth2/token"
+      operationId: "token"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LoginDto"
+              $ref: "#/components/schemas/TokenDto"
         required: true
       responses:
         "200":
@@ -114,9 +159,9 @@ paths:
             '*/*':
               schema:
                 type: "string"
-  /verify/{code}:
+  /api/verify/{code}:
     get:
-      summary: "GET verify/{code}"
+      summary: "GET api/verify/{code}"
       operationId: "verify"
       parameters:
         - name: "code"
@@ -127,12 +172,19 @@ paths:
       responses:
         "200":
           description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ResponseEntity"
 components:
   schemas:
+    LoginDto:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        password:
+          type: "string"
+        email:
+          type: "string"
+        language:
+          type: "string"
     UserDto:
       type: "object"
       properties:
@@ -145,20 +197,33 @@ components:
           type: "string"
         avatar:
           type: "string"
-    LoginDto:
+        language:
+          type: "string"
+    Oauth2ApplicationDto:
       type: "object"
       properties:
-        username:
+        scopes:
+          type: "array"
+          items:
+            type: "string"
+        clientId:
+          type: "string"
+        redirectUri:
+          type: "string"
+        name:
+          type: "string"
+    TokenDto:
+      type: "object"
+      properties:
+        scopes:
+          type: "array"
+          items:
+            type: "string"
+        clientId:
+          type: "string"
+        redirectUri:
           type: "string"
         password:
           type: "string"
-        email:
+        username:
           type: "string"
-    HttpHeaders:
-      type: "object"
-      properties: { }
-    ResponseEntity:
-      type: "object"
-      properties:
-        headers:
-          $ref: "#/components/schemas/HttpHeaders"

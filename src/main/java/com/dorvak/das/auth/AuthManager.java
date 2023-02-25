@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class AuthManager {
 
-    public static User createUser(String username, String password, String email, String ip) throws AuthException {
+    public static User createUser(String username, String password, String email, String ip, String language) throws AuthException {
         UserRepository userRepository = DorvakAuthServices.getInstance().getUserRepository();
         if (userRepository.existsByUsername(username)) {
             throw new AuthException("Username '%s' already exists", username);
@@ -23,7 +23,7 @@ public class AuthManager {
             throw new AuthException("Email '%s' already exists", email);
         }
 
-        User user = new User(username, PasswordManager.encryptPassword(password), email, ip);
+        User user = new User(username, PasswordManager.encryptPassword(password), email, ip, language);
         user = user.save();
 
         DorvakAuthServices.getLogger().info("Created user " + username);
@@ -41,7 +41,7 @@ public class AuthManager {
 
         String code = CodeGenerator.generateVerificationCode(user.getId());
 
-        String url = "http://localhost:8080/verify/" + code;
+        String url = "https://auth.dorvak.com/verify/" + code;
 
         String subject = "Dorvak Auth Services - Email verification";
 
@@ -56,13 +56,21 @@ public class AuthManager {
         return user != null && PasswordManager.checkPassword(password, user.getPassword()) ? user : null;
     }
 
-    public static User getUserFromToken(String token) {
+    public static User getUserFromToken(String token, boolean onlyUserToken) {
         JwtGenerator jtwGenerator = DorvakAuthServices.getInstance().getJtwGenerator();
         try {
-            String uuid = jtwGenerator.verifyToken(token.replace("Bearer ", ""));
-            return DorvakAuthServices.getInstance().getUserRepository().findById(UUID.fromString(uuid)).orElse(null);
+            String uuid = jtwGenerator.verifyToken(token.replace("Bearer ", ""), onlyUserToken);
+            return DorvakAuthServices.getInstance().getUserRepository().findById(UUID.fromString(uuid)).orElseThrow();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
         }
+    }
+
+    public static void changePassword(User user, String password, String s) {
+        if (!PasswordManager.checkPassword(s, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+        }
+        user.setPassword(PasswordManager.encryptPassword(password));
+        user.save();
     }
 }

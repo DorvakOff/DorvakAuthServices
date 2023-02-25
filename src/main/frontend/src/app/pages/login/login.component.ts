@@ -3,6 +3,7 @@ import {AlertHandlerService} from "../../services/alert-handler.service";
 import {UserService} from "../../services/user.service";
 import {NavigationService} from "../../services/navigation.service";
 import {ActivatedRoute} from "@angular/router";
+import {TranslationService} from "../../services/translation.service";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
   redirectUrl: string = '/'
   loading = false
 
-  constructor(private alertHandler: AlertHandlerService, private userService: UserService, private navigationService: NavigationService, activatedRoute: ActivatedRoute) {
+  constructor(private translationService: TranslationService, private alertHandler: AlertHandlerService, private userService: UserService, private navigationService: NavigationService, activatedRoute: ActivatedRoute) {
     activatedRoute.queryParams.subscribe(params => {
       this.redirectUrl = params['redirect'] || '/'
       if (this.redirectUrl === '/login') {
@@ -42,13 +43,26 @@ export class LoginComponent implements OnInit {
       return
     }
 
-    this.userService.login(this.loginEmail, this.loginPassword).subscribe(() => {
-      this.alertHandler.sendSuccess('Login successful', 'You have been logged in successfully')
-      this.navigationService.navigate(this.redirectUrl)
-      this.loading = false
+    this.userService.login(this.loginEmail, this.loginPassword).subscribe(token => {
+      this.userService.token = token
+      localStorage.setItem('token', token)
+      this.userService.getUser().subscribe(user => {
+        this.userService.user = user
+        this.alertHandler.sendSuccess('Login successful', 'You have been logged in successfully')
+        this.translationService.changeLang(user.language)
+        this.navigationService.navigate(this.redirectUrl)
+        this.loading = false
+      }, error => {
+        this.loading = false
+        this.alertHandler.raiseError(error)
+      })
     }, error => {
       this.loading = false
-      this.alertHandler.raiseError(error)
+      if (error.status === 401) {
+        this.alertHandler.raiseError('Invalid credentials')
+      } else {
+        this.alertHandler.raiseError(error)
+      }
     })
   }
 
@@ -72,10 +86,19 @@ export class LoginComponent implements OnInit {
       return
     }
 
-    this.userService.createAccount(this.email, this.password, this.username).subscribe(() => {
-      this.alertHandler.sendSuccess('Account created', 'Your account has been created successfully')
-      this.navigationService.navigate(this.redirectUrl)
-      this.loading = false
+    this.userService.createAccount(this.email, this.password, this.username).subscribe(token => {
+      this.userService.token = token
+      localStorage.setItem('token', token)
+      this.userService.getUser().subscribe(user => {
+        this.userService.user = user
+        this.translationService.changeLang(user.language)
+        this.alertHandler.sendSuccess('Account created', 'Your account has been created successfully')
+        this.navigationService.navigate(this.redirectUrl)
+        this.loading = false
+      }, error => {
+        this.loading = false
+        this.alertHandler.raiseError(error)
+      })
     }, error => {
       this.loading = false
       this.alertHandler.raiseError(error)

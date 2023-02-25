@@ -77,7 +77,7 @@
             {{translation.getLang() | uppercase}}
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" style="min-width: 10px">
-            <li *ngFor="let lang of translation.languagesConfig"><a (click)="translation.changeLang(lang.code)"
+            <li *ngFor="let lang of translation.languagesConfig"><a (click)="changeLang(lang.code)"
                                                                     class="dropdown-item"
                                                                     role="button">
               <img [alt]="'Flag for ' + lang.code" [src]="translation.getFlag(lang.code)" class="lang-flag"/>
@@ -87,15 +87,20 @@
         </li>
         <!-- Login button -->
         <li *ngIf="!userService.user" class="nav-item">
-          <app-button (onClick)="login()" type="outline-info">
-            Login&nbsp;
-            <i class="fa fa-user"></i>
+          <app-button (onClick)="login()" type="outline-info" [disabled]="userService.autoLoginLoading">
+            <span *ngIf="!userService.autoLoginLoading">
+              Login&nbsp;
+              <i class="fa fa-user"></i>
+            </span>
+            <span *ngIf="userService.autoLoginLoading">
+              <i class="fa fa-spinner fa-spin"></i>
+            </span>
           </app-button>
         </li>
         <!-- Access to account button with avatar dropdown -->
         <li *ngIf="userService.user" class="nav-item dropdown">
           <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button">
-            <img [src]="userService.user.avatarUrl" alt="User avatar" class="rounded" width="48px"/>
+            <img [src]="userService.user.avatar" alt="User avatar" class="rounded" width="48px" loading="lazy"/>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" style="min-width: 10px">
             <li>

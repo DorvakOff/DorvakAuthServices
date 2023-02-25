@@ -10,11 +10,11 @@ export class AlertHandlerService {
   constructor() {
   }
 
-  public raiseError(error: Error | string) {
+  public raiseError(error: any | string) {
     this.addAlert({
       severity: 'danger',
       title: 'An error occurred',
-      body: typeof error === 'string' ? error : error.message
+      body: typeof error === 'string' ? error : (error.error && error.error.message ? error.error.message : error.message)
     })
   }
 

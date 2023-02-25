@@ -1,0 +1,9 @@
+<app-busy-indicator *ngIf="loading"></app-busy-indicator>
+<div *ngIf="verified" class="container py-5">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3" style="width: 100%">
+      <h1>Thank you for verifying your email address.</h1>
+      <p>You can now <a routerLink="/login">login</a> to your account.</p>
+    </div>
+  </div>
+</div>

@@ -129,6 +129,13 @@ export class MenuComponent implements OnInit {
   login() {
     this.navigationService.navigate('/login?redirect=' + window.location.pathname)
   }
+
+  changeLang(code: string) {
+    this.translation.changeLang(code)
+    this.userService.changeLanguage(code).subscribe(() => {
+    }, () => {
+    })
+  }
 }
 
 export interface SchemaDto {
